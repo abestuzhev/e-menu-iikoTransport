@@ -242,15 +242,17 @@ a {
 .product-card-mode__item {
     width: 50%;
     margin-right: 4px;
-}
-.product-card-mode__item:last-child {
-    margin-right: 0;
-}
-
-.product-card-mode__item span {
+    cursor: pointer;
     display: block;
     border-radius: 4px;
     border: 1px solid #ccc;
     padding: 6px;
     text-align: center;
+}
+.product-card-mode__item:last-child {
+    margin-right: 0;
+}
+
+.product-card-mode__item.active {
+    background: #ececec;
 }

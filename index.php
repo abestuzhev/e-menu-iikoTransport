@@ -5,6 +5,8 @@
 // show_code("номенклатура", $_SESSION["numenclature"]["groups"]);
 // show_code("номенклатура", $_SESSION["numenclature"]["products"][0]);
 
+
+$modifierAll = array();
 $menuCategory = $_SESSION["numenclature"]["groups"];
 $products = $_SESSION["numenclature"]["products"];
 
@@ -56,14 +58,22 @@ $products = $_SESSION["numenclature"]["products"];
                                                 <?foreach($products as $itemModifire):?>
                                                     <?if( $itemModifire["id"] === $modifierElement["id"]):?>
                                                         <?
+                                                        
+                                                        array_push($modifierAll, $itemModifire);
+                                                        // usort($array, function($a, $b){
+                                                        //     return ($a['price'] - $b['price']);
+                                                        // });                                                        
+                                                                                    
                                                         array_push($currentPrice, $itemModifire["sizePrices"][0]["price"]["currentPrice"]);                             
                                                         ?>
-                                                        <div class="product-card-mode__item"  
-                                                            data-modifier-id="<?=$itemModifire["id"]?>" 
-                                                            data-modifier-price="<?=$itemModifire["sizePrices"][0]["price"]["currentPrice"]?>"
-                                                        >
-                                                            <span><?=$itemModifire["name"]?></span>
-                                                        </div>
+                                                        <?/*foreach($modifierAll as $item):*/?>
+                                                            <div class="product-card-mode__item"  
+                                                                data-modifier-id="<?=$itemModifire["id"]?>" 
+                                                                data-modifier-price="<?=$itemModifire["sizePrices"][0]["price"]["currentPrice"]?>"
+                                                            >
+                                                                <?=$itemModifire["name"]?>
+                                                            </div>
+                                                        <?/*endforeach*/?>
                                                     <?endif?>
                                                 <?endforeach?>
 
@@ -75,6 +85,7 @@ $products = $_SESSION["numenclature"]["products"];
                                 <?endif?>
                                 <div class="product-card__price">
                                     Цена: 
+                                    <span class="product-card__price-value">
                                     <?
                                     if(!empty($item["groupModifiers"])){
                                         echo $currentPrice[0];
@@ -83,6 +94,7 @@ $products = $_SESSION["numenclature"]["products"];
                                     }
                                      
                                      ?>
+                                     </span>
                                      руб.
                                 </div>
                             </div>
@@ -96,4 +108,38 @@ $products = $_SESSION["numenclature"]["products"];
     </div>   
 </div>
 
+<script>
+
+    const modes = document.querySelectorAll(".product-card-mode");
+    console.log(modes);
+    for(let i = 0; i < modes.length; i++) {
+        modes[i].querySelector(".product-card-mode__item").classList.add("active");;
+    } 
+
+    
+    const changePriceProduct = (event) => {   
+
+        const $elem = event.target;
+        if(!$elem.matches(".product-card-mode__item")) return; //проверка на нужный элемент
+
+        const modifierPrice = $elem.dataset.modifierPrice;
+        const $product = $elem.closest(".product-card");
+        const $productPrice = $product.querySelector(".product-card__price-value");
+        const modifirList = $product.querySelectorAll(".product-card-mode__item")
+
+        
+        console.log(modifirList);
+        $productPrice.textContent = modifierPrice; //меняем цену в карточке
+
+        // удаялем класс active у всех элементов
+        for(let i = 0; i < modifirList.length; i++) {
+            modifirList[i].classList.remove("active");
+        }        
+        $elem.classList.add("active");
+    };
+
+    document.addEventListener("click", changePriceProduct);
+
+
+</script>
 <? include_once "template/footer.php" ?>
