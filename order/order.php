@@ -1,5 +1,8 @@
 <? include_once $_SERVER['DOCUMENT_ROOT'] . "/template/header.php" ?>
-
+<?
+show_code("organizations", $_SESSION["organizations"]);
+// show_code("org", $_SESSION["org"]);
+?>
 
 <?/*show_code("Id всех организаций через резерв", $_SESSION["organizations"]);*/
 
@@ -26,7 +29,7 @@ foreach($_SESSION["organizations"] as $item):?>
         <div class="order-card">
             <h3 class="order-card__title">Отправка тестового заказа</h3>
 
-            <form action="order/doOrder.php" method="post" class="form">
+            <form action="/order/doOrder.php" method="post" class="form">
                 <input type="submit" class="c-btn" value="Отправить заказ">
             </form>
         </div>

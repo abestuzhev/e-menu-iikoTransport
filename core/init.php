@@ -19,7 +19,18 @@ $_SESSION["tokenKey"] = $tokenKey;
 // получаем organizationIds
 $organizations = json_decode(getOrganizationsId($server, $tokenKey), true);
 // show_code('organizations', $organizations);
-$_SESSION["organizations"] = $organizations;
+// $_SESSION["organizations"] = $organizations;
+// получаем id организаций и приводим их понятному виду
+// foreach($_SESSION["organizations"] as $item){
+    // if($item["name"] == "Тула"){
+    //     $_SESSION["org"]["tula"] = $item["id"];
+    // }elseif ($item["name"] == "Макси") {
+    //     $_SESSION["org"]["maxi"] = $item["id"];
+    // } else {
+        
+    // }
+    
+// }
 
 // $_SESSION["organizationMaxi"] = $organizations["organizations"][1]["id"];
 $_SESSION["organizations"] = $organizations["organizations"];
@@ -56,33 +67,34 @@ $_SESSION['paymentTypes'] = $paymentTypes;
 // --------------------------------------------------------------
 
 // получаем id restaurant 
-$organizationsAccountResponce = getOrganizationsAccount(
-    $_SESSION["server"], 
-    $_SESSION["tokenKey"]
-);
-$organizationsAccount = json_decode($organizationsAccountResponce, true);
-$_SESSION['organizationsAccount'] = $organizationsAccount;
-
-// получаем restaurant sections
-$restaurantSectionsResponce = getRestaurantSections(
-    $_SESSION["server"], 
-    $_SESSION["tokenKey"]
-);
-$restaurantSections = json_decode($restaurantSectionsResponce, true);
-$_SESSION['restaurantSections'] = $restaurantSections;
+$_SESSION['reserveAllOrganizations'] = json_decode(
+    getAllOrganizations(
+        $_SESSION["server"], 
+        $_SESSION["tokenKey"]
+    ), 
+    true);
 
 // получаем restaurant terminal
-$restaurantTerminalResponce = getRestaurantTerminal(
-    $_SESSION["server"], 
-    $_SESSION["tokenKey"]
-);
-$restaurantTerminal = json_decode($restaurantTerminalResponce, true);
-$_SESSION['restaurantTerminal'] = $restaurantTerminal;
+$_SESSION['reserveAllRestaurantTerminal'] = json_decode(
+    getAllTerminalGroups(
+        $_SESSION["server"], 
+        $_SESSION["tokenKey"]
+    ), 
+    true);
+// получаем id всех терминалов для получения столов
+$reserveAllOrganizationsIds = array();
+foreach( $_SESSION['reserveAllRestaurantTerminal']["terminalGroups"][0]["items"] as $item => $value) {
+    $reserveAllOrganizationsIds[] = $value["id"];
+}
+$_SESSION["reserveAllOrganizationsIds"] = $reserveAllOrganizationsIds;
 
-
-
-
-
+// получаем restaurant sections у конкретного терминала
+$_SESSION['reserveAllRestaurantSections'] = json_decode(
+    getAllRestaurantSections(
+        $_SESSION["server"], 
+        $_SESSION["tokenKey"]
+    ), 
+    true);
 
 // получаем номенклатуру
 $numenclature = json_decode(getNumenclature($server, $tokenKey, $organizations["organizations"][0]["id"]), true);

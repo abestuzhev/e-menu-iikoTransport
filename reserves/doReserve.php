@@ -38,7 +38,7 @@ $orderBanquet['customer']['name']              = "Алексей Бестуже�
 $orderBanquet['guestsCount']                   = 1;
 $orderBanquet['durationInMinutes']             = 120;
 $orderBanquet['shouldRemind']                  = false;
-// $orderBanquet['tableIds']                      = array("00000000-0000-0000-0000-000000000000");
+$orderBanquet['tableIds']                      = array("00000000-0000-0000-0000-000000000000"); //Получаем номер стола из QR кода
 $orderBanquet['estimatedStartTime']            = date("Y-m-d H:i");
 
 

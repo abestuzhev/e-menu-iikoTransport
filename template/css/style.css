@@ -128,6 +128,16 @@ a {
     margin-right: 16px;
 }
 
+.info-subtitle {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 6px;
+}
+
+.info-terminal {
+    margin-right: 16px;
+}
+
 .info-value {
     font-size: 16px;
     padding: 0;

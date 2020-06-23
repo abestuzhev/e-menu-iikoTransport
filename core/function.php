@@ -151,10 +151,20 @@ function getTerminalGroups($url, $token){
     );
 }
 
+// --------------------------------------------------------------
+// START RESERVES -----------------------------------------------------
+// --------------------------------------------------------------
 /* ------------------------------------------------------------------------------------ */
 
-// получение id организации через рещерв
-function getOrganizationsAccount($url, $token){
+// Массив организаций, которые поддерживают резерв столов
+// Доступно с версии 7.1.5
+// Если передать по умолчанию весь массив организаций, 
+// то выдает ошибку, т.к. организации с более ранними версиями не игнорируются
+$organizationReserveAvailible = [
+    "dfae61dd-1666-4068-b3fb-3cc65be4e0fd" //id Макси
+];
+// получение id организации через резерв
+function getAllOrganizations($url, $token){
     $headers = array(
         'Content-type: application/json; charset=utf-8',
         'Authorization: Bearer '. $token .''
@@ -171,28 +181,8 @@ function getOrganizationsAccount($url, $token){
 }
 
 /* ------------------------------------------------------------------------------------ */
-// получаем столы с терминала
-// d16e8f7a-e116-4801-974a-1ee1b28da0d8 - Макси Зал
-// f9511a55-41d9-4730-aee9-f547f6f473de - Макси Доставка
-function getRestaurantSections($url, $token){
-    $headers = array(
-        'Content-type: application/json; charset=utf-8',
-        'Authorization: Bearer '. $token .''
-    );
-    return curl_post(
-        $url.'/api/1/reserve/available_restaurant_sections', 
-        '{
-            "terminalGroupIds": [
-                "d16e8f7a-e116-4801-974a-1ee1b28da0d8"
-            ],
-            "returnSchema": true
-        }',
-        array( CURLOPT_HTTPHEADER => $headers )
-    );
-}
-
-/* ------------------------------------------------------------------------------------ */
-function getRestaurantTerminal($url, $token){
+// id терминала макси
+function getAllTerminalGroups($url, $token){
     $headers = array(
         'Content-type: application/json; charset=utf-8',
         'Authorization: Bearer '. $token .''
@@ -207,6 +197,37 @@ function getRestaurantTerminal($url, $token){
         array( CURLOPT_HTTPHEADER => $headers )
     );
 }
+
+/* ------------------------------------------------------------------------------------ */
+// получаем столы с терминала
+// d16e8f7a-e116-4801-974a-1ee1b28da0d8 - Макси Зал
+// f9511a55-41d9-4730-aee9-f547f6f473de - Макси Доставка
+
+$arr001 = [
+    "d16e8f7a-e116-4801-974a-1ee1b28da0d8",
+    "f9511a55-41d9-4730-aee9-f547f6f473de"
+];
+
+function getAllRestaurantSections ($url, $token){
+    $headers = array(
+        'Content-type: application/json; charset=utf-8',
+        'Authorization: Bearer '. $token .''
+    );
+    return curl_post(
+        $url.'/api/1/reserve/available_restaurant_sections', 
+        '{
+            "terminalGroupIds": '.json_encode($_SESSION["reserveAllOrganizationsIds"]).',
+            "returnSchema": false
+        }',
+        array( CURLOPT_HTTPHEADER => $headers )
+    );
+}
+
+
+
+// --------------------------------------------------------------
+// END RESERVES -----------------------------------------------------
+// --------------------------------------------------------------
 
 /* ------------------------------------------------------------------------------------ */
 function getNumenclature($url, $token, $organizationId){

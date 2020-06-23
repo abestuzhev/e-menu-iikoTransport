@@ -3,16 +3,25 @@
 
 <div class="layout">
     <h1 class="title">Резерв стола</h1>
-
-    
-    
     
     <form action="">
 
     <?
-    show_code("Id всех организаций через резерв", $_SESSION["organizations"]);
+    //показ всех организаций 
+    show_code("reserveAllOrganizations", $_SESSION['reserveAllOrganizations']);
+    
+    //показ всех терминалов 
+    show_code("reserveAllRestaurantTerminal", $_SESSION['reserveAllRestaurantTerminal']);
 
-    foreach($_SESSION["organizations"] as $item):?>
+    // массив id терминалов
+    show_code("id терминалов", $_SESSION["reserveAllOrganizationsIds"]);
+
+
+
+    //показ всех терминалов 
+    show_code("reserveAllRestaurantSections", $_SESSION['reserveAllRestaurantSections']);
+
+    foreach($_SESSION['reserveAllOrganizations']["organizations"] as $item):?>
         
         <div class="info">
             <label>
@@ -22,8 +31,17 @@
                     </div>
                     <div class="info-body">
                         <div class="info-title"><?= $item["name"]?></div>
-                        <div class="info-id"><?= $item["id"]?></div>
+                        <div class="info-id">id: <?= $item["id"]?></div>
                     </div>
+                    
+                </div>
+                <div class="info-row">
+                    <?foreach($_SESSION['reserveAllRestaurantTerminal']["terminalGroups"][0]["items"] as $terminal):?>
+                        <div class="info-terminal">
+                            <div class="info-subtitle"><?= $terminal["name"]?></div>
+                            <div class="info-id">id: <?= $terminal["id"]?></div>
+                        </div>
+                    <?endforeach?>
                 </div>
             </label>
         </div>

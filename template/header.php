@@ -3,9 +3,9 @@
     include_once $_SERVER['DOCUMENT_ROOT'] . '/core/init.php';
 
     $menu_page = array(
-        "Главная" => "index.php",
-        "Отправка заказа" => "order/order.php",
-        "Резерв" => "reserves/reserve.php"
+        "Главная" => "/index.php",
+        "Отправка заказа" => "/order/order.php",
+        "Резерв" => "/reserves/reserve.php"
     );
         
 ?>

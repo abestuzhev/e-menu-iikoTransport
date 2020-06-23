@@ -3,7 +3,7 @@
 
 <?
 // show_code("номенклатура", $_SESSION["numenclature"]["groups"]);
-// show_code("номенклатура", $_SESSION["numenclature"]["products"][0]);
+// show_code("номенклатура", $_SESSION["numenclature"]["products"]);
 
 
 $modifierAll = array();
