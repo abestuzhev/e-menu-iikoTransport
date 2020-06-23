@@ -11,7 +11,8 @@ $order = array();
 $order['organizationId']                = $organizations["organizations"][0]["id"];
 $order['terminalGroupId']               = "d16e8f7a-e116-4801-974a-1ee1b28da0d8";
 $order['order']['date']                 = date("Y-m-d H:i:s", strtotime("+60 minute"));
-$order['order']['items'][]              = array(
+$order['order']['items']                = array(
+                                          [
                                             "type" => "Product",
                                             "productId" => "fcc21e12-7f36-4b43-9815-d3c32db89ab1", //id пиццы dish Маргарита
                                             "amount" => "1",
@@ -22,7 +23,20 @@ $order['order']['items'][]              = array(
                                                     "productGroupId" => "aa7498d1-8c95-4613-bbfe-b13208302dde" //id категории пиццы Маргарита
                                                 ]
                                             ]                                                
-                                        );    
+                                          ], 
+                                          [
+                                            "type" => "Product",
+                                            "productId" => "fcc21e12-7f36-4b43-9815-d3c32db89ab1", //id пиццы dish Маргарита
+                                            "amount" => "1",
+                                            "modifiers" => [
+                                                [
+                                                    "productId" => "81d519b8-d856-4fd4-87e8-25be784a0110", //id пиццы modifier 28см Маргарита
+                                                    "amount" => 1,
+                                                    "productGroupId" => "aa7498d1-8c95-4613-bbfe-b13208302dde" //id категории пиццы Маргарита
+                                                ]
+                                            ]                                                
+                                          ],
+                                        );   
                                         
 // $order['order']['payments']             = array(
 //                                             "paymentTypeKind" => "Cash",
@@ -30,7 +44,7 @@ $order['order']['items'][]              = array(
 //                                             "paymentTypeId" => "09322f46-578a-d210-add7-eec222a08871", //id типа оплаты Cash
 //                                             "isProcessedExternally" => true
 //                                         );                            
-$order['order']['comment']              = "Тестовый заказ, не готовить";                            
+$order['order']['comment']              = "Тестовый заказ, не готовить!!!!Идет тестирование нового меню";                            
 $order['order']['orderServiceType']     = "DeliveryByClient";                            
 $order['order']['phone']                = "+79506602664";
 $order['order']['customer']['id']       = "00000000-0000-0000-0000-000000000000";
@@ -38,8 +52,8 @@ $order['order']['customer']['name']     = "Алексей Бестужев";
 
 
  // отправляем запрос и получаем ответ
-$string = doOrder($server, $tokenKey, $order, 50);
-$responseOrder = json_decode($string, true);
+// $string = doOrder($server, $tokenKey, $order, 50);
+// $responseOrder = json_decode($string, true);
 
 
 $orderId = $responseOrder["orderInfo"]["id"]; //id заказа
@@ -48,7 +62,8 @@ $orderIdOrganization = $responseOrder["orderInfo"]["organizationId"]; //id ор�
 $_SESSION["orderId"] = $orderId;
 $_SESSION["orderIdOrganization"] = $orderIdOrganization;
 
-show_code("responseOrder", $responseOrder);
+// show_code("responseOrder", $responseOrder);
+show_code("Сам заказ", $order);
 
 ?>
 

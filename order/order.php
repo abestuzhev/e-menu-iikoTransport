@@ -1,4 +1,24 @@
-<? include_once "template/header.php" ?>
+<? include_once $_SERVER['DOCUMENT_ROOT'] . "/template/header.php" ?>
+
+
+<?/*show_code("Id всех организаций через резерв", $_SESSION["organizations"]);*/
+
+foreach($_SESSION["organizations"] as $item):?>
+    
+    <div class="info">
+        <label>
+            <div class="info-row">
+                <div class="info-label">
+                    <input type="radio" value="<?= $item["id"]?>" name="organizations">
+                </div>
+                <div class="info-body">
+                    <div class="info-title"><?= $item["name"]?></div>
+                    <div class="info-id"><?= $item["id"]?></div>
+                </div>
+            </div>
+        </label>
+    </div>
+<?endforeach?>
 
 <div class="wrapper">
 
@@ -25,4 +45,4 @@
     
 </div>
 
-<? include_once "template/footer.php" ?>
+<? include_once $_SERVER['DOCUMENT_ROOT'] . "/template/footer.php" ?>

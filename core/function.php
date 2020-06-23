@@ -250,7 +250,7 @@ function curl_post($url, $post = null, array $options = array()) {
 function show_code ($title, $elem) {
     echo $title;    
     echo '<pre>';
-    var_dump ($elem);
+    print_r ($elem);
     echo '</pre>';
     echo '--------------------------------';
     echo '<br/>';
