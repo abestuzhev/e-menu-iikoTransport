@@ -7,6 +7,7 @@
     <form action="">
 
     <?
+
     //показ всех организаций 
     show_code("reserveAllOrganizations", $_SESSION['reserveAllOrganizations']);
     
@@ -15,8 +16,10 @@
 
     // массив id терминалов
     show_code("id терминалов", $_SESSION["reserveAllOrganizationsIds"]);
-
-
+    
+    // id заказа банкета и id орагнизации, куда ушел банкет
+    show_code("id заказа", $_SESSION["reserveInfoId"]);
+    show_code("id организации", $_SESSION["reserveIdOrganization"]);  
 
     //показ всех терминалов 
     show_code("reserveAllRestaurantSections", $_SESSION['reserveAllRestaurantSections']);

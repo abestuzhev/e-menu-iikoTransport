@@ -1,35 +1,13 @@
 <? include_once '../core/init.php'; 
 
-// show_code("Массив organizations", $_SESSION['organizations']);
-// show_code("Id всех организаций", $_SESSION["allOrganizationsIds"]);
-// show_code("Терминалы доставки", $_SESSION['terminals']);
-// show_code("Терминалы резерва", $_SESSION['restaurantTerminal']);
-// show_code("organizationsAccount", $_SESSION['organizationsAccount']);
-// show_code("Секция ресторана", $_SESSION['restaurantSections']);
-
-
-// show_code("Тип оплаты", $_SESSION['paymentTypes']);
-
-
-
-
-
 $orderBanquet = array();
-// show_code('Организация', $organizations["organizations"][0]["id"]);
 
 $orderBanquet['organizationId']                = $organizations["organizations"][0]["id"]; //id организации Макси
-
+$orderBanquet['terminalGroupId']               = "d16e8f7a-e116-4801-974a-1ee1b28da0d8"; //id терминала Зал
 $orderBanquet['order']['items'][]              = array(
                                                     "type" => "Product",
-                                                    "productId" => "fcc21e12-7f36-4b43-9815-d3c32db89ab1", //id пиццы dish Маргарита
-                                                    "amount" => "1",
-                                                    "modifiers" => [
-                                                        [
-                                                            "productId" => "81d519b8-d856-4fd4-87e8-25be784a0110", //id пиццы modifier 28см Маргарита
-                                                            "amount" => 1,
-                                                            "productGroupId" => "aa7498d1-8c95-4613-bbfe-b13208302dde" //id категории пиццы Маргарита
-                                                        ]
-                                                    ]                                                
+                                                    "productId" => "d184abf4-31a5-47e5-baaf-7d2ee40e52b9", //id Соус томатный Хайнц
+                                                    "amount" => "1"                                      
                                                 );                              
 $orderBanquet['comment']                       = "Тестирование нового меню, не готовить данный заказ!!!!";                
 $orderBanquet['phone']                         = "+79506602664";
@@ -38,15 +16,43 @@ $orderBanquet['customer']['name']              = "Алексей Бестуже�
 $orderBanquet['guestsCount']                   = 1;
 $orderBanquet['durationInMinutes']             = 120;
 $orderBanquet['shouldRemind']                  = false;
-$orderBanquet['tableIds']                      = array("00000000-0000-0000-0000-000000000000"); //Получаем номер стола из QR кода
-$orderBanquet['estimatedStartTime']            = date("Y-m-d H:i");
+$orderBanquet['tableIds']                      = array("b8a53934-19a2-4a2f-9a76-439f7f124e60"); //стол №1 терминала "Зал"
+$orderBanquet['estimatedStartTime']            = date("c"); //получаем в формате ISO 2020-06-24T14:22:00"
 
 
 // show_code("Массив orderBanquet", $orderBanquet);
 
  // отправляем запрос и получаем ответ
-// $string = createBanquet($server, $tokenKey, $orderBanquet, 50);
-// $responseOrderBanquet = json_decode($string, true);
-// show_code("Responce заказа банкета", $responseOrderBanquet);
+$responseOrderBanquet = json_decode(
+    createBanquet($server, $tokenKey, $orderBanquet, 50),
+    true);
 
+$_SESSION["reserveInfoId"][] = $responseOrderBanquet["reserveInfo"]["id"]; //id заказа
+$_SESSION["reserveIdOrganization"] = $responseOrderBanquet["reserveInfo"]["organizationId"]; //id организации
+$_SESSION["reserveCreationStatus"] = $responseOrderBanquet["reserveInfo"]["creationStatus"]; //status InProgress/Success
+
+show_code("Responce заказа банкета", $responseOrderBanquet);
+
+
+// информационная справка
+
+// пример Responce создания банкета
+// Array
+// (
+//     [correlationId] => fc388dac-d6fe-4e9c-9e57-00088a04e98c
+//     [reserveInfo] => Array
+//         (
+//             [id] => 2beff7dc-5c4f-4f5a-905f-ef46dfabfe87
+//             [organizationId] => dfae61dd-1666-4068-b3fb-3cc65be4e0fd
+//             [timestamp] => 1592997657384
+//             [creationStatus] => InProgress
+//             [errorInfo] => 
+//         )
+
+// )
+
+// Список действий по получению заказа из банкета для изменения типа оплаты
+// 1. Проверка статуса создания банкета
+// 2. После создания заказа повторная проверка
+// 3. Получаем заказ банкета по id
 ?>

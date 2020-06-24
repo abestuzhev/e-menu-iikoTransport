@@ -97,7 +97,12 @@ $_SESSION['reserveAllRestaurantSections'] = json_decode(
     true);
 
 // получаем номенклатуру
-$numenclature = json_decode(getNumenclature($server, $tokenKey, $organizations["organizations"][0]["id"]), true);
+$numenclature = json_decode(
+    getNumenclature(
+        $server, 
+        $tokenKey, 
+        $_SESSION["organizations"][0]["id"]), 
+    true);
 // show_code('$numenclature', $numenclature);
 $_SESSION["numenclature"] = $numenclature;
     

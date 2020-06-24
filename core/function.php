@@ -6,7 +6,13 @@
 
 
 
-function UpdateOrderPaymentDetails($url, $token, $organizationId, $orderId, $timeOut){
+function UpdateOrderPaymentDetails(
+    $url, 
+    $token, 
+    $price,
+    $organizationId, 
+    $orderId, 
+    $timeOut){
     $headers = array(
         'Content-type: application/json; charset=utf-8',
         'Authorization: Bearer '. $token .'',
@@ -20,7 +26,7 @@ function UpdateOrderPaymentDetails($url, $token, $organizationId, $orderId, $tim
                 "orderId": "'. $orderId .'",
                 "paymentItems": [
                 {
-                    "sum": 440,
+                    "sum": "'. $price . '",
                     "paymentTypeId": "9e03de8c-1587-459e-b5ab-a839e8d842d9",
                     "isProcessedExternally": true
                     }
@@ -97,6 +103,7 @@ function getToken($url,$api_key){
 
 /* ------------------------------------------------------------------------------------ */
 // Запрос типов оплат
+//id организации макси
 function paymentTypes($url, $token, $timeOut){
     $headers = array(
         'Content-type: application/json; charset=utf-8',
@@ -107,7 +114,7 @@ function paymentTypes($url, $token, $timeOut){
         $url.'/api/1/payment_types', 
         '{
             "organizationIds": [
-            "dfae61dd-1666-4068-b3fb-3cc65be4e0fd"
+            "dfae61dd-1666-4068-b3fb-3cc65be4e0fd" 
             ]
         }',
         array( CURLOPT_HTTPHEADER => $headers )
@@ -203,10 +210,6 @@ function getAllTerminalGroups($url, $token){
 // d16e8f7a-e116-4801-974a-1ee1b28da0d8 - Макси Зал
 // f9511a55-41d9-4730-aee9-f547f6f473de - Макси Доставка
 
-$arr001 = [
-    "d16e8f7a-e116-4801-974a-1ee1b28da0d8",
-    "f9511a55-41d9-4730-aee9-f547f6f473de"
-];
 
 function getAllRestaurantSections ($url, $token){
     $headers = array(
@@ -224,6 +227,20 @@ function getAllRestaurantSections ($url, $token){
 }
 
 
+function retrieveReservesStatuses ($url, $token){
+    $headers = array(
+        'Content-type: application/json; charset=utf-8',
+        'Authorization: Bearer '. $token .''
+    );
+    return curl_post(
+        $url.'/api/1/reserve/status_by_id', 
+        '{
+            "organizationId": '. $_SESSION["reserveIdOrganization"] .',
+            "reserveIds": '. json_encode($_SESSION["reserveInfoId"]) .'
+        }',
+        array( CURLOPT_HTTPHEADER => $headers )
+    );
+}
 
 // --------------------------------------------------------------
 // END RESERVES -----------------------------------------------------
