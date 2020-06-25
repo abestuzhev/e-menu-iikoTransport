@@ -2,7 +2,7 @@
 
 
 <?
-// show_code("номенклатура", $_SESSION["numenclature"]["groups"]);
+show_code("номенклатура", $_SESSION["numenclature"]["groups"]);
 // show_code("номенклатура", $_SESSION["numenclature"]["products"]);
 
 
@@ -11,8 +11,8 @@ $menuCategory = $_SESSION["numenclature"]["groups"];
 $products = $_SESSION["numenclature"]["products"];
 
 // show_code("Тип оплаты", $_SESSION['paymentTypes']);
-show_code("организации", $_SESSION["organizations"]);
-show_code("товары", $_SESSION["numenclature"]);
+// show_code("организации", $_SESSION["organizations"]);
+// show_code("товары", $_SESSION["numenclature"]);
 // show_code("товары", $products[""]);
 ?>
 

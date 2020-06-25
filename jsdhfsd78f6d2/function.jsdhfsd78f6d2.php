@@ -1,4 +1,9 @@
 <?
+session_status();
+
+
+$a = 10;
+
 function getGUID(){
     if (function_exists('com_create_guid')){
         return com_create_guid();
@@ -55,10 +60,7 @@ function getOrderInfo($url,$organization,$token,$orderID,$timeOut){
 function getToken($url,$user,$secret){
     return curl_get($url.'/api/0/auth/access_token',array('user_id'=>$user,'user_secret'=>$secret));
 }
-/* ------------------------------------------------------------------------------------ */
-function getNomenclature($url,$organization,$token){
-    return curl_get($url.'/api/0/nomenclature/'.$organization,array('access_token'=>$token));
-}
+
 /* ------------------------------------------------------------------------------------ */
 function addUser($url,$organization,$token,$user_name,$user_phone){
     return curl_post(
@@ -69,12 +71,28 @@ function addUser($url,$organization,$token,$user_name,$user_phone){
 }
 
 /* ------------------------------------------------------------------------------------ */
+function getNumenclature($url, $token, $organization){
+    return curl_get($url.'/api/0/nomenclature/'. $organization, array('access_token'=> $token));
+}
+
+function show_code ($title, $elem) {
+    echo $title;    
+    echo '<pre>';
+    print_r ($elem);
+    echo '</pre>';
+    echo '--------------------------------';
+    echo '<br/>';
+    echo '<br/>';
+}
+
+
+/* ------------------------------------------------------------------------------------ */
 function curl_get($url, array $get = NULL, array $options = array()) {
     $defaults = array(
                        CURLOPT_URL => $url . (strpos($url, '?') === FALSE ? '?' : '') . http_build_query($get) ,
                        CURLOPT_HEADER => 0,
                        CURLOPT_RETURNTRANSFER => TRUE,
-                       CURLOPT_DNS_USE_GLOBAL_CACHE => false,
+                    //    CURLOPT_DNS_USE_GLOBAL_CACHE => false,
                        CURLOPT_SSL_VERIFYHOST => 0, //unsafe, but the fastest solution for the error " SSL certificate problem, verify that the CA cert is OK"
                        CURLOPT_SSL_VERIFYPEER => 0, //unsafe, but the fastest solution for the error " SSL certificate problem, verify that the CA cert is OK"
                       );
@@ -92,4 +110,3 @@ function curl_get($url, array $get = NULL, array $options = array()) {
     return $result;
 }
 
-    

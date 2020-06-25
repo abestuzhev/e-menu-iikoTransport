@@ -1,6 +1,8 @@
 <?
 
-include 'function.php';
+// include 'function.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/jsdhfsd78f6d2/function.jsdhfsd78f6d2.php';
+
 
     // $order = array();
 
@@ -28,15 +30,22 @@ include 'function.php';
 
     // d184abf4-31a5-47e5-baaf-7d2ee40e52b9 - соус томатный Heinze
 
-    // получаем токен
-    // https://api-ru.iiko.services/api/1/access_token
-    $token = getToken("https://iiko.biz:9900","DeliveryPresto","Presto2015");
+
+// получаем токен
+// https://api-ru.iiko.services/api/1/access_token
+$_SESSION["token"] = getToken("https://iiko.biz:9900","DeliveryPresto","Presto2015");
+show_code("Token", $_SESSION["token"]);
+
+$_SESSION["organizationId"] = "44e4dda6-02c4-11e5-80c1-d8d385655247";
+
+
+
 
     // отправляем запрос и получаем ответ
     // $string = doOrder("https://iiko.biz:9900",trim($token,'"'),$order,50);
-    $json = json_decode($string, true);
+    // $json = json_decode($string, true);
 
-    var_dump($json);
+    // var_dump($json);
 
 
 // {
@@ -72,3 +81,14 @@ include 'function.php';
 // }
 
 ?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iikoDelivery</title>
+</head>
+<body>
+</body>
+</html>
