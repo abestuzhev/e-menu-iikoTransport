@@ -16,6 +16,32 @@ $products = $_SESSION["numenclature"]["products"];
 // show_code("товары", $products[""]);
 ?>
 
+<!-- **************************************** -->
+<!-- **************************************** -->
+<!-- **************************************** -->
+<!-- Сортировка по порядку и скрытие ненужных категорий -->
+<?
+    $menuCategoryShow = array();
+    foreach($menuCategory as $item){
+        $additionalInfo = json_decode($item["additionalInfo"], true);
+        $isHide = $additionalInfo["eMenu"]["isHide"]; // признак по которому прячем группы из внешнего меню
+        
+        $isGroupModifier = $item["isGroupModifier"]; //группа не является группой модификаторов
+        if(!$isHide && !$isGroupModifier) {
+            array_push($menuCategoryShow, $item);
+        }
+    }
+    //сортировка массива по признаку order
+    $numOrder  = array_column($menuCategoryShow, 'order');
+    array_multisort($numOrder, SORT_ASC, $menuCategoryShow);
+    show_code("menuCategory", $menuCategory);
+?>
+
+<!-- **************************************** -->
+<!-- **************************************** -->
+<!-- **************************************** -->
+
+
 <div class="layout">
     <h1 class="title-page">iikoTransport menu</h1>
 
