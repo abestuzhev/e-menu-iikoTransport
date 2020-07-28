@@ -290,7 +290,7 @@ function show_code ($title, $elem) {
     echo '<pre>';
     print_r ($elem);
     echo '</pre>';
-    echo '--------------------------------';
+    echo '<hr/>';
     echo '<br/>';
     echo '<br/>';
 }
